@@ -1,0 +1,14 @@
+# ignore system files
+\.*
+
+# except .gitignore
+!.gitignore
+
+# ignore temp folders
+test/
+temp/
+tmp/
+
+# ingnore demo, for while..
+demo/
+assets/
