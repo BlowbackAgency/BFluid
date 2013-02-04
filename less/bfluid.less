@@ -3,7 +3,7 @@
  * @package B.Fluid
  * @author Blowback.fi
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
- * @version 1.0 [2013-1-29]
+ * @version 1.0 [2013-2-5]
  */
 
 /* --------------------------------------------------------------------------
@@ -43,7 +43,7 @@
 @fixedContainer: (@fixedColumn * @a) + (@fixedGutter * @a) + (@fixedPadding * @a);
 
 /* --------------------------------------------------------------------------
-   Fluid Semantic grid shortcuts
+   Fluid Semantic Grid shortcuts
    -------------------------------------------------------------------------- */
 
 // .fluid_container (int[@colums], int[@gutter], int[@padding], int[@container])
@@ -56,9 +56,9 @@
 	#grid > #fluid > .column(@fluidGutter, @fluidPadding, @container);
 }
 
-// .fluid_grid (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
-.fluid_grid (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > .grid(@cols, @gridColumn_a, @fluidGutter, @fluidPadding, @container, 'fluid');
+// .fluid_span (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
+.fluid_span (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+	#grid > .span(@cols, @gridColumn_a, @fluidGutter, @fluidPadding, @container, 'fluid');
 }
 
 // .fluid_push (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
@@ -82,7 +82,7 @@
 }
 
 /* --------------------------------------------------------------------------
-   Fixed Semantic grid shortcuts
+   Fixed Semantic Grid shortcuts
    -------------------------------------------------------------------------- */
 
 // .fixed_container (int[@colums], int[@gutter], int[@padding], int[@container])
@@ -95,9 +95,9 @@
 	#grid > #fixed > .column(@fixedGutter, @fixedPadding, @fixedContainer);
 }
 
-// .fixed_grid (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
-.fixed_grid (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > .grid(@cols, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, 'fixed');
+// .fixed_span (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
+.fixed_span (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+	#grid > .span(@cols, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, 'fixed');
 }
 
 // .fixed_push (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
@@ -183,7 +183,7 @@
 	}
 	
 /* --------------------------------------------------------------------------
-   Fluid container width + margins & paddings
+   Fluid Container width, margins & paddings
    -------------------------------------------------------------------------- */
 	
 	/**
@@ -255,7 +255,7 @@
 	}
 	
 /* --------------------------------------------------------------------------
-   Fixed container width + margins & paddings
+   Fixed Container width, margins & paddings
    -------------------------------------------------------------------------- */
 	
 	/**
@@ -308,7 +308,7 @@
 	}
 	
 /* --------------------------------------------------------------------------
-   Fluid column margins & paddings
+   Fluid Column margins & paddings
    -------------------------------------------------------------------------- */
 	
 	/**
@@ -360,7 +360,7 @@
 	}
 	
 /* --------------------------------------------------------------------------
-   Fixed column margins & paddings
+   Fixed Column margins & paddings
    -------------------------------------------------------------------------- */
 	
 	/**
@@ -404,11 +404,11 @@
 	}
 	
 /* --------------------------------------------------------------------------
-   Fluid grid width + push, pull, prefix & suffix styles
+   Fluid Grid span, push, pull, prefix & suffix styles
    -------------------------------------------------------------------------- */
 	
-	// fluid > .grid
-	.grid (@cols, @column, @gutter, @padding, @container, @type) when (@type = 'fluid') {
+	// fluid > .span
+	.span (@cols, @column, @gutter, @padding, @container, @type) when (@type = 'fluid') {
 		width: (@column * @cols) + (@gutter * (@cols - 1)) + (@padding * (@cols - 1));
 		*width: (@column * @cols) + (@gutter * (@cols - 1)) + (@padding * (@cols - 1)) - (.5 / @container * 100 * 1%);
 	}
@@ -438,11 +438,11 @@
 	}
 	
 /* --------------------------------------------------------------------------
-   Fixed grid width + push, pull, prefix & suffix styles
+   Fixed Grid span, push, pull, prefix & suffix styles
    -------------------------------------------------------------------------- */
 	
-	// fixed > .grid
-	.grid (@cols, @column, @gutter, @padding, @container, @type) when (@type = 'fixed') {
+	// fixed > .span
+	.span (@cols, @column, @gutter, @padding, @container, @type) when (@type = 'fixed') {
 		width: (@column * @cols) + (@gutter * (@cols - 1)) + (@padding * (@cols - 1)) + 0px;
 	}
 	
@@ -467,15 +467,15 @@
 	}
 	
 /* --------------------------------------------------------------------------
-   Loops for grid + push, pull, prefix & suffix styles
+   Loops for Grid span, push, pull, prefix & suffix styles
    -------------------------------------------------------------------------- */
 	
-	// loop for .grid
-	.grid_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
-		(~".grid_@{index}") { #grid > .grid(@index, @column, @gutter, @padding, @container, @type); }
-		#grid > .grid_X(@index - 1, @column, @gutter, @padding, @container, @type);
+	// loop for .span
+	.span_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
+		(~".grid_@{index}") { #grid > .span(@index, @column, @gutter, @padding, @container, @type); }
+		#grid > .span_X(@index - 1, @column, @gutter, @padding, @container, @type);
 	}
-	.grid_X (0) {}
+	.span_X (0) {}
 	
 	// loop for .push
 	.push_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
@@ -506,7 +506,7 @@
 	.suffix_X (0) {}
 	
 /* --------------------------------------------------------------------------
-   Shortcuts
+   Grid Shortcuts
    -------------------------------------------------------------------------- */
 
 	/**
@@ -514,7 +514,7 @@
 	 */
 	.set_columns (@cols, @column, @gutter, @padding, @container, @type) { 
 		(~".container_@{cols}") {
-			#grid > .grid_X (@cols, @column, @gutter, @padding, @container, @type);
+			#grid > .span_X (@cols, @column, @gutter, @padding, @container, @type);
 			#grid > .push_X (@cols - 1, @column, @gutter, @padding, @container, @type);
 			#grid > .pull_X (@cols - 1, @column, @gutter, @padding, @container, @type);
 			#grid > .prefix_X (@cols - 1, @column, @gutter, @padding, @container, @type);
@@ -565,7 +565,7 @@
 	}
 	
 /* --------------------------------------------------------------------------
-   Grid constructors
+   960 style Grid constructors
    -------------------------------------------------------------------------- */
 	
 	/**
