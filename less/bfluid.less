@@ -1,127 +1,22 @@
 /*!
  * bfluid.less
- * @package B.Fluid
  * @author Blowback.fi
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License (GPL)
- * @version 1.0 [2013-2-5]
+ * @version 1.0.1 [2013-2-18]
  */
 
-/* --------------------------------------------------------------------------
-   Variables
-   -------------------------------------------------------------------------- */
 
 /**
- * Grid defaults
+ * Default settings
  */
-@defaultGutter: 30;
+@defaultGutter: 26;
 @defaultPadding: 0;
-@defaultContainer: 1140;
+@defaultContainer: 960;
 @defaultColumns: 12;
 
-/**
- * Calculate fluid gutters & paddings
- */
-@fluidGutter: percentage(@gutter / @container);
-@fluidPadding: percentage(@padding / @container);
-
-/**
- * Calculate fluid column widths
- */
-@gridColumn_a: (@container - (@gutter * @a) - (@padding * @a)) / @a;
-@fluidColumn_a: percentage(@gridColumn_a / @container);
-@gridColumn_b: (@container - (@gutter * @b) - (@padding * @b)) / @b;
-@fluidColumn_b: percentage(@gridColumn_b / @container);
-@gridColumn_c: (@container - (@gutter * @c) - (@padding * @c)) / @c;
-@fluidColumn_c: percentage(@gridColumn_c / @container);
-
-/**
- * Calculate fixed gutters, paddings & widths
- */
-@fixedGutter: floor(@gutter / 2) * 2;
-@fixedPadding: floor(@padding / 2) * 2;
-@fixedColumn: round((@container - (@fixedGutter * @a) - (@fixedPadding * @a)) / @a);
-@fixedContainer: (@fixedColumn * @a) + (@fixedGutter * @a) + (@fixedPadding * @a);
 
 /* --------------------------------------------------------------------------
-   Fluid Semantic Grid shortcuts
-   -------------------------------------------------------------------------- */
-
-// .fluid_container (int[@colums], int[@gutter], int[@padding], int[@container])
-.fluid_container (@a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > #fluid > .container(@fluidGutter, @fluidPadding, @container);
-}
-
-// .fluid_column (int[@colums], int[@gutter], int[@padding], int[@container])
-.fluid_column (@a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > #fluid > .column(@fluidGutter, @fluidPadding, @container);
-}
-
-// .fluid_span (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
-.fluid_span (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > .span(@cols, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, 'fluid');
-}
-
-// .fluid_push (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
-.fluid_push (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > .push(@cols, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, 'fluid');
-}
-
-// .fluid_pull (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
-.fluid_pull (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > .pull(@cols, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, 'fluid');
-}
-
-// .fluid_prefix (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
-.fluid_prefix (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > .prefix(@cols, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, 'fluid');
-}
-
-// .fluid_suffix (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
-.fluid_suffix (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > .suffix(@cols, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, 'fluid');
-}
-
-/* --------------------------------------------------------------------------
-   Fixed Semantic Grid shortcuts
-   -------------------------------------------------------------------------- */
-
-// .fixed_container (int[@colums], int[@gutter], int[@padding], int[@container])
-.fixed_container (@a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > #fixed > .container(@fixedGutter, @fixedPadding, @fixedContainer);
-}
-
-// .fixed_column (int[@colums], int[@gutter], int[@padding], int[@container])
-.fixed_column (@a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > #fixed > .column(@fixedGutter, @fixedPadding, @fixedContainer);
-}
-
-// .fixed_span (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
-.fixed_span (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > .span(@cols, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, 'fixed');
-}
-
-// .fixed_push (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
-.fixed_push (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > .push(@cols, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, 'fixed');
-}
-
-// .fixed_pull (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
-.fixed_pull (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > .pull(@cols, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, 'fixed');
-}
-
-// .fixed_prefix (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
-.fixed_prefix (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > .prefix(@cols, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, 'fixed');
-}
-
-// .fixed_suffix (int[@cols], int[@colums], int[@gutter], int[@padding], int[@container])
-.fixed_suffix (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
-	#grid > .suffix(@cols, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, 'fixed');
-}
-
-/* --------------------------------------------------------------------------
-   B.Fluid Grid
+   B.Fluid Grid styles
    -------------------------------------------------------------------------- */
 
 #grid {
@@ -465,52 +360,14 @@
 	.suffix (@cols, @column, @gutter, @padding, @container, @type) when (@type = 'fixed') {
 		padding-right: (@column * @cols) + (@gutter * @cols) + (@padding * @cols) + (@padding / 2) + 0px;
 	}
-	
-/* --------------------------------------------------------------------------
-   Loops for Grid span, push, pull, prefix & suffix styles
-   -------------------------------------------------------------------------- */
-	
-	// loop for .span
-	.span_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
-		(~".grid_@{index}") { #grid > .span(@index, @column, @gutter, @padding, @container, @type); }
-		#grid > .span_X(@index - 1, @column, @gutter, @padding, @container, @type);
-	}
-	.span_X (0) {}
-	
-	// loop for .push
-	.push_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
-		(~".push_@{index}") { #grid > .push(@index, @column, @gutter, @padding, @container, @type); }
-		#grid > .push_X(@index - 1, @column, @gutter, @padding, @container, @type);
-	}
-	.push_X (0) {}
-	
-	// loop for .pull
-	.pull_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
-		(~".pull_@{index}") { #grid > .pull(@index, @column, @gutter, @padding, @container, @type); }
-		#grid > .pull_X(@index - 1, @column, @gutter, @padding, @container, @type);
-	}
-	.pull_X (0) {}
-	
-	// loop for .prefix
-	.prefix_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
-		(~".prefix_@{index}") { #grid > .prefix(@index, @column, @gutter, @padding, @container, @type); }
-		#grid > .prefix_X(@index - 1, @column, @gutter, @padding, @container, @type);
-	}
-	.prefix_X (0) {}
-	
-	// loop for .suffix
-	.suffix_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
-		(~".suffix_@{index}") { #grid > .suffix(@index, @column, @gutter, @padding, @container, @type); }
-		#grid > .suffix_X(@index - 1, @column, @gutter, @padding, @container, @type);
-	}
-	.suffix_X (0) {}
-	
-/* --------------------------------------------------------------------------
-   Grid Shortcuts
-   -------------------------------------------------------------------------- */
 
+
+/* --------------------------------------------------------------------------
+   960 style grid loops
+   -------------------------------------------------------------------------- */
+	
 	/**
-	 * Set container and following grid class names
+	 * Main loop to set container and following grid class names
 	 */
 	.set_columns (@cols, @column, @gutter, @padding, @container, @type) { 
 		(~".container_@{cols}") {
@@ -523,49 +380,53 @@
 	}
 	
 	/**
-	 * Fluid grid shortcuts
+	 * loop for .span
 	 */
-	#fluid {
-		.container (@gutter, @padding, @container) {
-			#grid > .grid_container;
-			#grid > .fluid_container(@gutter, @padding, @container);
-			#grid > .clearfix;
-		}
-		.column (@gutter, @padding, @container) {
-			#grid > .grid_column;
-			#grid > .fluid_column(@gutter, @padding, @container);
-		}
-		.set_columns (@cols, @column, @gutter, @padding, @container, @type:'fluid') {
-			#grid > .set_columns (@cols, @column, @gutter, @padding, @container, @type);
-		}
-		.reset (@a, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer, @type:'fluid') {
-			#grid > .set_columns (@a, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, @type);
-		}
+	.span_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
+		(~".grid_@{index}") { #grid > .span(@index, @column, @gutter, @padding, @container, @type); }
+		#grid > .span_X(@index - 1, @column, @gutter, @padding, @container, @type);
 	}
+	.span_X (0) {}
 	
 	/**
-	 * Fixed grid shortcuts
+	 * loop for .push
 	 */
-	#fixed {
-		.container (@gutter, @padding, @container) {
-			#grid > .grid_container;
-			#grid > .fixed_container(@gutter, @padding, @container);
-			#grid > .clearfix;
-		}
-		.column (@gutter, @padding, @container) {
-			#grid > .grid_column;
-			#grid > .fixed_column(@gutter, @padding, @container);
-		}
-		.set_columns (@cols, @column, @gutter, @padding, @container, @type:'fixed') {
-			#grid > .set_columns (@cols, @column, @gutter, @padding, @container, @type);
-		}
-		.reset (@a, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer, @type:'fixed') {
-			#grid > .set_columns (@a, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, @type);
-		}
+	.push_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
+		(~".push_@{index}") { #grid > .push(@index, @column, @gutter, @padding, @container, @type); }
+		#grid > .push_X(@index - 1, @column, @gutter, @padding, @container, @type);
 	}
+	.push_X (0) {}
 	
+	/**
+	 * loop for .pull
+	 */
+	.pull_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
+		(~".pull_@{index}") { #grid > .pull(@index, @column, @gutter, @padding, @container, @type); }
+		#grid > .pull_X(@index - 1, @column, @gutter, @padding, @container, @type);
+	}
+	.pull_X (0) {}
+	
+	/**
+	 * loop for .prefix
+	 */
+	.prefix_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
+		(~".prefix_@{index}") { #grid > .prefix(@index, @column, @gutter, @padding, @container, @type); }
+		#grid > .prefix_X(@index - 1, @column, @gutter, @padding, @container, @type);
+	}
+	.prefix_X (0) {}
+	
+	/**
+	 * loop for .suffix
+	 */
+	.suffix_X (@index, @column, @gutter, @padding, @container, @type) when (@index > 0) {
+		(~".suffix_@{index}") { #grid > .suffix(@index, @column, @gutter, @padding, @container, @type); }
+		#grid > .suffix_X(@index - 1, @column, @gutter, @padding, @container, @type);
+	}
+	.suffix_X (0) {}
+
+
 /* --------------------------------------------------------------------------
-   960 style Grid constructors
+   960 style grid constructors
    -------------------------------------------------------------------------- */
 	
 	/**
@@ -573,47 +434,44 @@
 	 */
 	.fluid (@a:0, @b:0, @c:0, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) when (@a>1) and (@b=0) and (@c=0) {
 		(~'.container_@{a}') {
-			#grid > #fluid > .container(@fluidGutter, @fluidPadding, @container);
+			#fluid > .container(@a, @gutter, @padding, @container);
 		}
 		(~'.container_@{a} [class*="grid_"]') {
-			#grid > #fluid > .column(@fluidGutter, @fluidPadding, @container);
+			#fluid > .column(@a, @gutter, @padding, @container);
 		}
-		#grid > #fluid > .set_columns(@a, @fluidColumn_a, @fluidGutter, @fluidPadding, @container);
+		#fluid > .set_columns(@a, @b, @c, @gutter, @padding, @container);
 	}
 	
 	/**
 	 * Fluid grid (b)
 	 */
-	.fluid (@a:0, @b:0, @c:0, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) when (@a>1) and (@b>0) and (@c=0) {
+	.fluid (@a:0, @b:0, @c:0, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) when (@a>1) and (@b>1) and (@c=0) {
 		(~'.container_@{a}'),
 		(~'.container_@{b}') {
-			#grid > #fluid > .container(@fluidGutter, @fluidPadding, @container);
+			#fluid > .container(@a, @gutter, @padding, @container);
 		}
 		(~'.container_@{a} [class*="grid_"]'),
 		(~'.container_@{b} [class*="grid_"]') {
-			#grid > #fluid > .column(@fluidGutter, @fluidPadding, @container);
+			#fluid > .column(@a, @gutter, @padding, @container);
 		}
-		#grid > #fluid > .set_columns(@a, @fluidColumn_a, @fluidGutter, @fluidPadding, @container);
-		#grid > #fluid > .set_columns(@b, @fluidColumn_b, @fluidGutter, @fluidPadding, @container);
+		#fluid > .set_columns(@a, @b, @c, @gutter, @padding, @container);
 	}
-	
+
 	/**
 	 * Fluid grid (c)
 	 */
-	.fluid (@a:0, @b:0, @c:0, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) when (@a>1) and (@b>0) and (@c>0) {
+	.fluid (@a:0, @b:0, @c:0, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) when (@a>1) and (@b>1) and (@c>1) {
 		(~'.container_@{a}'),
 		(~'.container_@{b}'),
 		(~'.container_@{c}') {
-			#grid > #fluid > .container(@fluidGutter, @fluidPadding, @container);
+			#fluid > .container(@a, @gutter, @padding, @container);
 		}
 		(~'.container_@{a} [class*="grid_"]'),
 		(~'.container_@{b} [class*="grid_"]'),
 		(~'.container_@{c} [class*="grid_"]') {
-			#grid > #fluid > .column(@fluidGutter, @fluidPadding, @container);
+			#fluid > .column(@a, @gutter, @padding, @container);
 		}
-		#grid > #fluid > .set_columns(@a, @fluidColumn_a, @fluidGutter, @fluidPadding, @container);
-		#grid > #fluid > .set_columns(@b, @fluidColumn_b, @fluidGutter, @fluidPadding, @container);
-		#grid > #fluid > .set_columns(@c, @fluidColumn_c, @fluidGutter, @fluidPadding, @container);
+		#fluid > .set_columns(@a, @b, @c, @gutter, @padding, @container);
 	}
 	
 	/**
@@ -621,11 +479,219 @@
 	 */
 	.fixed (@a:0, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) when (@a>1) {
 		(~'.container_@{a}') {
-			#grid > #fixed > .container(@fixedGutter, @fixedPadding, @fixedContainer);
+			#fixed > .container(@a, @gutter, @padding, @container);
 		}
 		(~'.container_@{a} [class*="grid_"]') {
-			#grid > #fixed > .column(@fixedGutter, @fixedPadding, @fixedContainer);
+			#fixed > .column(@a, @gutter, @padding, @container);
 		}
-		#grid > #fixed > .set_columns(@a, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer);
+		#fixed > .set_columns(@a, @gutter, @padding, @container);
+	}
+}
+
+
+/* --------------------------------------------------------------------------
+   Fluid grid shortcuts
+   -------------------------------------------------------------------------- */
+
+#fluid {
+	
+	.container (@a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fluidGutter: percentage(@gutter / @container);
+		@fluidPadding: percentage(@padding / @container);
+		// process output
+		#grid > .grid_container;
+		#grid > .fluid_container(@fluidGutter, @fluidPadding, @container);
+		#grid > .clearfix;
+	}
+	
+	.column (@a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fluidGutter: percentage(@gutter / @container);
+		@fluidPadding: percentage(@padding / @container);
+		// process output
+		#grid > .grid_column;
+		#grid > .fluid_column(@fluidGutter, @fluidPadding, @container);
+	}
+	
+	.set_columns (@a:0, @b:0, @c:0, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer, @type:'fluid') when (@a>1) and (@b=0) and (@c=0) {
+		// calculate widths
+		@fluidGutter: percentage(@gutter / @container);
+		@fluidPadding: percentage(@padding / @container);
+		@gridColumn_a: (@container - (@gutter * @a) - (@padding * @a)) / @a;
+		@fluidColumn_a: percentage(@gridColumn_a / @container);
+		// process output
+		#grid > .set_columns (@a, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, @type);
+	}
+	
+	.set_columns (@a:0, @b:0, @c:0, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer, @type:'fluid') when (@a>1) and (@b>1) and (@c=0) {
+		// calculate widths
+		@fluidGutter: percentage(@gutter / @container);
+		@fluidPadding: percentage(@padding / @container);
+		@gridColumn_a: (@container - (@gutter * @a) - (@padding * @a)) / @a;
+		@fluidColumn_a: percentage(@gridColumn_a / @container);
+		@gridColumn_b: (@container - (@gutter * @b) - (@padding * @b)) / @b;
+		@fluidColumn_b: percentage(@gridColumn_b / @container);
+		// process output
+		#grid > .set_columns (@a, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, @type);
+		#grid > .set_columns (@b, @fluidColumn_b, @fluidGutter, @fluidPadding, @container, @type);
+	}
+	
+	.set_columns (@a:0, @b:0, @c:0, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer, @type:'fluid') when (@a>1) and (@b>1) and (@c>1) {
+		// calculate widths
+		@fluidGutter: percentage(@gutter / @container);
+		@fluidPadding: percentage(@padding / @container);
+		@gridColumn_a: (@container - (@gutter * @a) - (@padding * @a)) / @a;
+		@fluidColumn_a: percentage(@gridColumn_a / @container);
+		@gridColumn_b: (@container - (@gutter * @b) - (@padding * @b)) / @b;
+		@fluidColumn_b: percentage(@gridColumn_b / @container);
+		@gridColumn_c: (@container - (@gutter * @c) - (@padding * @c)) / @c;
+		@fluidColumn_c: percentage(@gridColumn_c / @container);
+		// process output
+		#grid > .set_columns (@a, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, @type);
+		#grid > .set_columns (@b, @fluidColumn_b, @fluidGutter, @fluidPadding, @container, @type);
+		#grid > .set_columns (@c, @fluidColumn_c, @fluidGutter, @fluidPadding, @container, @type);
+	}
+	
+
+	.span (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fluidGutter: percentage(@gutter / @container);
+		@fluidPadding: percentage(@padding / @container);
+		@gridColumn_a: (@container - (@gutter * @a) - (@padding * @a)) / @a;
+		@fluidColumn_a: percentage(@gridColumn_a / @container);
+		// process output
+		#grid > .span(@cols, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, 'fluid');
+	}
+	
+	.push (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fluidGutter: percentage(@gutter / @container);
+		@fluidPadding: percentage(@padding / @container);
+		@gridColumn_a: (@container - (@gutter * @a) - (@padding * @a)) / @a;
+		@fluidColumn_a: percentage(@gridColumn_a / @container);
+		// process output
+		#grid > .push(@cols, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, 'fluid');
+	}
+	
+	.pull (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fluidGutter: percentage(@gutter / @container);
+		@fluidPadding: percentage(@padding / @container);
+		@gridColumn_a: (@container - (@gutter * @a) - (@padding * @a)) / @a;
+		@fluidColumn_a: percentage(@gridColumn_a / @container);
+		// process output
+		#grid > .pull(@cols, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, 'fluid');
+	}
+	
+	.prefix (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fluidGutter: percentage(@gutter / @container);
+		@fluidPadding: percentage(@padding / @container);
+		@gridColumn_a: (@container - (@gutter * @a) - (@padding * @a)) / @a;
+		@fluidColumn_a: percentage(@gridColumn_a / @container);
+		// process output
+		#grid > .prefix(@cols, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, 'fluid');
+	}
+	
+	.suffix (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fluidGutter: percentage(@gutter / @container);
+		@fluidPadding: percentage(@padding / @container);
+		@gridColumn_a: (@container - (@gutter * @a) - (@padding * @a)) / @a;
+		@fluidColumn_a: percentage(@gridColumn_a / @container);
+		// process output
+		#grid > .suffix(@cols, @fluidColumn_a, @fluidGutter, @fluidPadding, @container, 'fluid');
+	}
+}
+
+
+/* --------------------------------------------------------------------------
+   Fixed grid shortcuts
+   -------------------------------------------------------------------------- */
+
+#fixed {
+	
+	.container (@a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fixedGutter: floor(@gutter / 2) * 2;
+		@fixedPadding: floor(@padding / 2) * 2;
+		@fixedColumn: round((@container - (@fixedGutter * @a) - (@fixedPadding * @a)) / @a);
+		@fixedContainer: (@fixedColumn * @a) + (@fixedGutter * @a) + (@fixedPadding * @a);
+		// process output
+		#grid > .grid_container;
+		#grid > .fixed_container(@fixedGutter, @fixedPadding, @fixedContainer);
+		#grid > .clearfix;
+	}
+	
+	.column (@a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fixedGutter: floor(@gutter / 2) * 2;
+		@fixedPadding: floor(@padding / 2) * 2;
+		@fixedColumn: round((@container - (@fixedGutter * @a) - (@fixedPadding * @a)) / @a);
+		@fixedContainer: (@fixedColumn * @a) + (@fixedGutter * @a) + (@fixedPadding * @a);
+		// process output
+		#grid > .grid_column;
+		#grid > .fixed_column(@fixedGutter, @fixedPadding, @fixedContainer);
+	}
+	
+	.set_columns (@a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer, @type:'fixed') {
+		// calculate widths
+		@fixedGutter: floor(@gutter / 2) * 2;
+		@fixedPadding: floor(@padding / 2) * 2;
+		@fixedColumn: round((@container - (@fixedGutter * @a) - (@fixedPadding * @a)) / @a);
+		@fixedContainer: (@fixedColumn * @a) + (@fixedGutter * @a) + (@fixedPadding * @a);
+		// process output
+		#grid > .set_columns (@a, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, @type);
+	}
+	
+	.span (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fixedGutter: floor(@gutter / 2) * 2;
+		@fixedPadding: floor(@padding / 2) * 2;
+		@fixedColumn: round((@container - (@fixedGutter * @a) - (@fixedPadding * @a)) / @a);
+		@fixedContainer: (@fixedColumn * @a) + (@fixedGutter * @a) + (@fixedPadding * @a);
+		// process output
+		#grid > .span(@cols, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, 'fixed');
+	}
+	
+	.push (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fixedGutter: floor(@gutter / 2) * 2;
+		@fixedPadding: floor(@padding / 2) * 2;
+		@fixedColumn: round((@container - (@fixedGutter * @a) - (@fixedPadding * @a)) / @a);
+		@fixedContainer: (@fixedColumn * @a) + (@fixedGutter * @a) + (@fixedPadding * @a);
+		// process output
+		#grid > .push(@cols, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, 'fixed');
+	}
+	
+	.pull (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fixedGutter: floor(@gutter / 2) * 2;
+		@fixedPadding: floor(@padding / 2) * 2;
+		@fixedColumn: round((@container - (@fixedGutter * @a) - (@fixedPadding * @a)) / @a);
+		@fixedContainer: (@fixedColumn * @a) + (@fixedGutter * @a) + (@fixedPadding * @a);
+		// process output
+		#grid > .pull(@cols, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, 'fixed');
+	}
+	
+	.prefix (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fixedGutter: floor(@gutter / 2) * 2;
+		@fixedPadding: floor(@padding / 2) * 2;
+		@fixedColumn: round((@container - (@fixedGutter * @a) - (@fixedPadding * @a)) / @a);
+		@fixedContainer: (@fixedColumn * @a) + (@fixedGutter * @a) + (@fixedPadding * @a);
+		// process output
+		#grid > .prefix(@cols, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, 'fixed');
+	}
+	
+	.suffix (@cols, @a:@defaultColumns, @gutter:@defaultGutter, @padding:@defaultPadding, @container:@defaultContainer) {
+		// calculate widths
+		@fixedGutter: floor(@gutter / 2) * 2;
+		@fixedPadding: floor(@padding / 2) * 2;
+		@fixedColumn: round((@container - (@fixedGutter * @a) - (@fixedPadding * @a)) / @a);
+		@fixedContainer: (@fixedColumn * @a) + (@fixedGutter * @a) + (@fixedPadding * @a);
+		// process output
+		#grid > .suffix(@cols, @fixedColumn, @fixedGutter, @fixedPadding, @fixedContainer, 'fixed');
 	}
 }
