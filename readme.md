@@ -24,7 +24,7 @@ LESS
 ```
 
 HTML
-```
+```html
 <div class="columns_6">
 	<div class="col_2 small_col_3 tiny_col_6">ONE</div>
 	<div class="col_2 small_col_3 tiny_col_6">TWO</div>
