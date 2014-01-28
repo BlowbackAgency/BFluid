@@ -1,0 +1,22 @@
+@import "./bfluid/bfluid.less";
+
+@grid-layout: 6;
+@grid-gutter: 40;
+@grid-container: 1200;
+
+@grid-use-media: true;
+@grid-media-namespace: small tiny;
+@grid-media-breakpoint: 55em 35em;
+@grid-media-direction: max;
+
+@grid-name-container: columns;
+@grid-name-column: col;
+
+[class*="col_"] {
+	background: #eee;
+	color: #888;
+	padding: 20px;
+	margin-top: 20px;
+}
+
+#grid.build();
