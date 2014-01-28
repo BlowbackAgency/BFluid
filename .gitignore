@@ -4,12 +4,6 @@
 # except .gitignore
 !.gitignore
 
-# ignore temp folders & old versions
+# ignore temp folders
 test/
 temp/
-tmp/
-old/
-
-# ingnore demo, for while..
-demo/
-assets/
