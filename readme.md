@@ -1,6 +1,6 @@
 # BFluid Grid System
 
-** BFluid v2 - CSS grids for LESS **
+**BFluid v2 - CSS grids for LESS**
 
 ## Use
 
