@@ -1,14 +1,4 @@
-# BFluid Grid System
-
-**CSS grids for LESS**
-
-BFluid v2.0.1 and up requires LESS.js [v1.7.1](https://github.com/less/less.js/releases/tag/v1.7.1) or newer.
-
-## Use example
-
-LESS
-```css
-@import "path/to/bfluid.less";
+@import "../bfluid.less";
 
 @grid-layout: 6; // layout column count, can be many (eg. 6 10 24) but beware bloat!
 @grid-gutter: 40; // gutter size, relative to container (gutter/container)
@@ -32,19 +22,11 @@ LESS
 
 // execute build
 #grid.build();
-```
 
-HTML
-```html
-<div class="columns-6">
-	<div class="col-6 large-col-3 huge-col-2">ONE</div>
-	<div class="col-6 large-col-3 huge-col-2">TWO</div>
-	<div class="col-6 huge-col-2">THREE</div>
-</div>
-```
-
-## License
-
-[The MIT License (MIT)](LICENCE.md)
-
-Copyright (c) 2014 Blowback - https://github.com/BlowbackDesign
+// some general styles to columns
+[class*="col-"] {
+	background: #eee;
+	color: #888;
+	padding: 20px;
+	margin-top: 20px;
+}

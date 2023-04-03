@@ -1,0 +1,482 @@
+/*! BFluid.less | version 2.0.1 | MIT license | https://github.com/BlowbackDesign/BFluid */
+
+// --------------------------------------------------------------------------
+// General options
+// --------------------------------------------------------------------------
+
+@grid-layout: 12;
+@grid-gutter: 20;
+@grid-container: 960;
+@grid-direction: left right;
+
+@grid-use-transition: true;
+@grid-transition-duration: 0.025s;
+@grid-transition-function: ease-in;
+
+@grid-use-golden: true;
+@grid-golden-ratio: 1.6180339887498948482;
+
+// --------------------------------------------------------------------------
+// Builder options
+// --------------------------------------------------------------------------
+
+// media queries
+@grid-use-media: false;
+@grid-media-namespace: tablet mobile;
+@grid-media-breakpoint: 52em 35em;
+@grid-media-direction: max; // min/max (mobile/desktop first)
+
+// build classnames
+@grid-use-prefix: true;
+@grid-use-suffix: true;
+@grid-use-push: true;
+@grid-use-pull: true;
+@grid-use-inner: true;
+@grid-use-outer: true;
+@grid-use-trim: true;
+
+// css classnames
+@grid-name-separator: _;
+@grid-name-container: container;
+@grid-name-column: grid;
+@grid-name-prefix: prefix;
+@grid-name-suffix: suffix;
+@grid-name-push: push;
+@grid-name-pull: pull;
+@grid-name-inner: inner;
+@grid-name-outer: outer;
+@grid-name-trim: trim;
+
+// --------------------------------------------------------------------------
+// General mixins
+// --------------------------------------------------------------------------
+
+#grid {
+
+	.clearfix() {
+		&:before,
+		&:after {
+			display: table;
+			content: "";
+		}
+		&:after {
+			clear: both;
+		}
+	}
+
+	.box-sizing(@size:border-box) {
+		-webkit-box-sizing: @size;
+		-moz-box-sizing: @size;
+		-ms-box-sizing: @size;
+		box-sizing: @size;
+	}
+
+	.trim() {
+		overflow: hidden;
+	}
+
+}
+
+// --------------------------------------------------------------------------
+// Set grid variables
+// --------------------------------------------------------------------------
+
+#grid {
+	.set(@layout:@grid-layout, @gutter:@grid-gutter, @container:@grid-container) {
+		@_c: unit(@container);
+		@_g: unit(@gutter);
+		@_gutter: percentage(@_g / @_c);
+		@_column: percentage(((@_c - (@_g * @layout)) / @layout) / @_c);
+		@_container: (@_column * @layout) + (@_gutter * (@layout - 2));
+		@_column_a: @_container / @grid-golden-ratio;
+		@_column_b: @_container - @_column_a;
+		@_direction: extract(@grid-direction, 1);
+		@_direction_alt: extract(@grid-direction, 2);
+	}
+}
+
+// --------------------------------------------------------------------------
+// Grid base styles
+// --------------------------------------------------------------------------
+
+#grid {
+	.base(@base:body, @trim:null) {
+		@{base} {
+			text-align: extract(@grid-direction, 1);
+		}
+	}
+	.base(@base:body, @trim:@grid-use-trim) when (@trim = true) {
+		@{base} {
+			&.@{grid-name-trim} { #grid.trim(); }
+		}
+	}
+}
+
+// --------------------------------------------------------------------------
+// BFluid grid core mixins
+// --------------------------------------------------------------------------
+
+#grid {
+	.use(@layout:@grid-layout, @gutter:@grid-gutter, @container:@grid-container) {
+
+		#grid.set(@layout, @gutter, @container);
+
+		// CONTAINER
+
+		.container(@key:0) when (@key = 0), (@key = inner), (@key = outer) {
+			list-style: none;
+		}
+		.container(@key:0) when (@key = 0) {
+			width: 100%;
+			margin-left: auto;
+			margin-right: auto;
+			padding-left: 0;
+			padding-right: 0;
+		}
+		.container(@key:0) when (@key = inner), (@key = inner-class) {
+			width: (100% / (100% - @_gutter) * 100%);
+			margin-left: (@_gutter / -2);
+			margin-right: (@_gutter / -2);
+			padding-left: 0;
+			padding-right: 0;
+		}
+		.container(@key:0) when (@key = outer), (@key = outer-class)  {
+			width: 100%;
+			margin-left: auto;
+			margin-right: auto;
+			padding-left: (@_gutter / 2);
+			padding-right: (@_gutter / 2);
+		}
+		.container(@key:0) when (@key = 0), (@key = inner), (@key = outer) {
+			#grid.box-sizing();
+			#grid.clearfix();
+		}
+		.container(@key:0) when (@key = 0), (@key = inner), (@key = outer) and (@grid-use-trim = true) {
+			&.@{grid-name-trim} { #grid.trim(); }
+		}
+		.container(@key:0) when (@key = 0), (@key = inner), (@key = outer) and (@grid-use-inner = true) {
+			&.@{grid-name-inner} { .inner-container-class(); }
+		}
+		.container(@key:0) when (@key = 0), (@key = inner), (@key = outer) and (@grid-use-outer = true) {
+			&.@{grid-name-outer} { .outer-container-class(); }
+		}
+
+		// INNER CONTAINER
+
+		.container-inner() when (isnumber(@_gutter)) and (@_gutter > 0) {
+			.container(inner);
+		}
+		.inner-container() when (isnumber(@_gutter)) and (@_gutter > 0) {
+			.container(inner);
+		}
+		.inner-container-class() when (isnumber(@_gutter)) and (@_gutter > 0) {
+			.container(inner-class);
+		}
+
+		// OUTER CONTAINER
+
+		.container-outer() when (isnumber(@_gutter)) and (@_gutter > 0) {
+			.container(outer);
+		}
+		.outer-container() when (isnumber(@_gutter)) and (@_gutter > 0) {
+			.container(outer);
+		}
+		.outer-container-class() when (isnumber(@_gutter)) and (@_gutter > 0) {
+			.container(outer-class);
+		}
+
+		// COLUMN
+
+		.column(@span:0) {
+			position: relative;
+			float: @_direction;
+			min-height: 1px;
+			.span(@span); // spanning is auto set if there is some value
+		}
+		.column(@span:0) when (isnumber(@_gutter)) and (@_gutter = 0) {
+			margin-left: 0;
+			margin-right: 0;
+		}
+		.column(@span:0) when (isnumber(@_gutter)) and (@_gutter > 0) {
+			margin-left: (@_gutter / 2);
+			margin-right: (@_gutter / 2);
+		}
+		.column(@span:0) {
+			#grid.box-sizing();
+		}
+		.column(@span:0) when (@grid-use-trim = true) {
+			&.@{grid-name-trim} { #grid.trim(); }
+		}
+		.column(@span:0) when (@grid-use-transition = true) {
+			-webkit-transition: none @grid-transition-function @grid-transition-duration;
+			   -moz-transition: none @grid-transition-function @grid-transition-duration;
+			     -o-transition: none @grid-transition-function @grid-transition-duration;
+			        transition: none @grid-transition-function @grid-transition-duration;
+			-webkit-transition-property: width, height, margin, padding, top, right, bottom, left;
+			   -moz-transition-property: width, height, margin, padding, top, right, bottom, left;
+			     -o-transition-property: width, height, margin, padding, top, right, bottom, left;
+			        transition-property: width, height, margin, padding, top, right, bottom, left;
+		}
+
+		// SPAN
+
+		.span(@span:0) when (isnumber(@span)) and (@span > 0) {
+			width: (@_column * @span) + (@_gutter * (@span - 1));
+		}
+		.span(@span:0) when (@span = a) {
+			width: @_column_a;
+		}
+		.span(@span:0) when (@span = b) {
+			width: @_column_b;
+		}
+
+		// PUSH
+
+		.push(@span:0) when (@span = 0) {
+			@{_direction}: auto;
+		}
+		.push(@span:0) when (isnumber(@span)) and (@span > 0) {
+			@{_direction}: (@_column * @span) + (@_gutter * @span);
+		}
+		.push(@span:0) when (@span = a) {
+			@{_direction}: (@_column_a + @_gutter);
+		}
+		.push(@span:0) when (@span = b) {
+			@{_direction}: (@_column_b + @_gutter);
+		}
+
+		// PULL
+
+		.pull(@span:0) when (@span = 0) {
+			@{_direction_alt}: auto;
+		}
+		.pull(@span:0) when (isnumber(@span)) and (@span > 0) {
+			@{_direction_alt}: (@_column * @span) + (@_gutter * @span);
+		}
+		.pull(@span:0) when (@span = a) {
+			@{_direction_alt}: (@_column_a + @_gutter);
+		}
+		.pull(@span:0) when (@span = b) {
+			@{_direction_alt}: (@_column_b + @_gutter);
+		}
+
+		// PREFIX
+
+		.prefix(@span:0) when (@span = 0) {
+			margin-@{_direction}: (@_gutter / 2);
+		}
+		.prefix(@span:0) when (isnumber(@span)) and (@span > 0) {
+			margin-@{_direction}: (@_column * @span) + (@_gutter * @span) + (@_gutter / 2);
+		}
+
+		// SUFFIX
+
+		.suffix(@span:0) when (@span = 0) {
+			margin-@{_direction_alt}: (@_gutter / 2);
+		}
+		.suffix(@span:0) when (isnumber(@span)) and (@span > 0) {
+			margin-@{_direction_alt}: (@_column * @span) + (@_gutter * @span) + (@_gutter / 2);
+		}
+		
+		// PROCESS SPAN
+		
+		.process-span(@span, @name) when (isnumber(@span)) and (@span >= 0) and (@name = "") {
+			.@{grid-name-column}@{grid-name-separator}@{span} {
+				.span(@span);
+			}
+			.process-span((@span - 1), @name);
+		}
+		.process-span(@span, @name) when (isnumber(@span)) and (@span >= 0) and (iskeyword(@name)) {
+			.@{name}@{grid-name-separator}@{grid-name-column}@{grid-name-separator}@{span} {
+				.span(@span);
+			}
+			.process-span((@span - 1), @name);
+		}
+		.process-span(@span, @name) when (iskeyword(@span)) and (@name = "") {
+			.@{grid-name-column}@{grid-name-separator}@{span} {
+				.span(@span);
+			}
+		}
+		.process-span(@span, @name) when (iskeyword(@span)) and (iskeyword(@name)) {
+			.@{name}@{grid-name-separator}@{grid-name-column}@{grid-name-separator}@{span} {
+				.span(@span);
+			}
+		}
+		
+		// PROCESS PUSH
+	
+		.process-push(@span, @name) when (isnumber(@span)) and (@span >= 0) and (@name = "") {
+			.@{grid-name-push}@{grid-name-separator}@{span} {
+				.push(@span);
+			}
+			.process-push((@span - 1), @name);
+		}
+		.process-push(@span, @name) when (isnumber(@span)) and (@span >= 0) and (iskeyword(@name)) {
+			.@{name}@{grid-name-separator}@{grid-name-push}@{grid-name-separator}@{span} {
+				.push(@span);
+			}
+			.process-push((@span - 1), @name);
+		}
+		.process-push(@span, @name) when (iskeyword(@span)) and (@name = "") {
+			.@{grid-name-push}@{grid-name-separator}@{span} {
+				.push(@span);
+			}
+		}
+		.process-push(@span, @name) when (iskeyword(@span)) and (iskeyword(@name)) {
+			.@{name}@{grid-name-separator}@{grid-name-push}@{grid-name-separator}@{span} {
+				.push(@span);
+			}
+		}
+	
+		// PROCESS PULL
+	
+		.process-pull(@span, @name) when (isnumber(@span)) and (@span >= 0) and (@name = "") {
+			.@{grid-name-pull}@{grid-name-separator}@{span} {
+				.pull(@span);
+			}
+			.process-pull((@span - 1), @name);
+		}
+		.process-pull(@span, @name) when (isnumber(@span)) and (@span >= 0) and (iskeyword(@name)) {
+			.@{name}@{grid-name-separator}@{grid-name-pull}@{grid-name-separator}@{span} {
+				.pull(@span);
+			}
+			.process-pull((@span - 1), @name);
+		}
+		.process-pull(@span, @name) when (iskeyword(@span)) and (@name = "") {
+			.@{grid-name-pull}@{grid-name-separator}@{span} {
+				.pull(@span);
+			}
+		}
+		.process-pull(@span, @name) when (iskeyword(@span)) and (iskeyword(@name)) {
+			.@{name}@{grid-name-separator}@{grid-name-pull}@{grid-name-separator}@{span} {
+				.pull(@span);
+			}
+		}
+	
+		// PROCESS PREFIX
+
+		.process-prefix(@span, @name) when (isnumber(@span)) and (@span >= 0) and (@name = "") {
+			.@{grid-name-prefix}@{grid-name-separator}@{span} {
+				.prefix(@span);
+			}
+			.process-prefix((@span - 1), @name);
+		}
+		.process-prefix(@span, @name) when (isnumber(@span)) and (@span >= 0) and (iskeyword(@name)) {
+			.@{name}@{grid-name-separator}@{grid-name-prefix}@{grid-name-separator}@{span} {
+				.prefix(@span);
+			}
+			.process-prefix((@span - 1), @name);
+		}
+	
+		// PROCESS SUFFIX
+
+		.process-suffix(@span, @name) when (isnumber(@span)) and (@span >= 0) and (@name = "") {
+			.@{grid-name-suffix}@{grid-name-separator}@{span} {
+				.suffix(@span);
+			}
+			.process-suffix((@span - 1), @name);
+		}
+		.process-suffix(@span, @name) when (isnumber(@span)) and (@span >= 0) and (iskeyword(@name)) {
+			.@{name}@{grid-name-separator}@{grid-name-suffix}@{grid-name-separator}@{span} {
+				.suffix(@span);
+			}
+			.process-suffix((@span - 1), @name);
+		}
+		
+		// PROCESS ALL
+		
+		.process-column-classnames(@span, @name) {
+			.process-span(@span, @name);
+		}
+		.process-column-classnames(@span, @name) when (@grid-use-golden = true) {
+			.process-span(a, @name);
+			.process-span(b, @name);
+		}
+		.process-column-classnames(@span, @name) when (@grid-use-push = true) {
+			.process-push((@span - 1), @name);
+		}
+		.process-column-classnames(@span, @name) when (@grid-use-push = true) and (@grid-use-golden = true) {
+			.process-push(a, @name);
+			.process-push(b, @name);
+		}
+		.process-column-classnames(@span, @name) when (@grid-use-pull = true) {
+			.process-pull((@span - 1), @name);
+		}
+		.process-column-classnames(@span, @name) when (@grid-use-pull = true) and (@grid-use-golden = true) {
+			.process-pull(a, @name);
+			.process-pull(b, @name);
+		}
+		.process-column-classnames(@span, @name) when (@grid-use-prefix = true) {
+			.process-prefix((@span - 1), @name);
+		}
+		.process-column-classnames(@span, @name) when (@grid-use-suffix = true) {
+			.process-suffix((@span - 1), @name);
+		}
+		
+	}
+}
+
+// --------------------------------------------------------------------------
+// Process layouts
+// --------------------------------------------------------------------------
+
+// process single layout
+.grid-process-layout(@layout, @gutter, @container, @name) {
+	.@{grid-name-container}@{grid-name-separator}@{layout} {
+		.container();
+		[class*="@{grid-name-column}@{grid-name-separator}"] {
+			.column();
+		}
+	}
+	.grid-process-layout-columns(@layout, @gutter, @container, @name);
+}
+
+// process columns for single layout or media query
+.grid-process-layout-columns(@layout, @gutter, @container, @name) {
+	.@{grid-name-container}@{grid-name-separator}@{layout} {
+		.process-column-classnames(@layout, @name);
+	}
+}
+
+// --------------------------------------------------------------------------
+// Builder helpers
+// --------------------------------------------------------------------------
+
+.grid-build-layout(@layout, @gutter, @container, @name, @i:1) when (isnumber(extract(@layout, @i))) {
+	@_layout: extract(@layout, @i);
+	#grid.use(@_layout, @gutter, @container);
+	.grid-process-layout(@_layout, @gutter, @container, @name);
+	.grid-build-media(@_layout, @gutter, @container, @name, 1);
+	.grid-build-layout(@layout, @gutter, @container, @name, (@i + 1));
+}
+
+.grid-build-media(@layout, @gutter, @container, @name, @i) when (@grid-use-media = true) and (isnumber(extract(@grid-media-breakpoint, @i))) and (iskeyword(extract(@grid-media-namespace, @i))) {
+	@namespace: extract(@grid-media-namespace, @i);
+	@breakpoint: extract(@grid-media-breakpoint, @i);
+	.grid-build-media-helper(@layout, @gutter, @container, @namespace, @breakpoint);
+	.grid-build-media(@layout, @gutter, @container, @name, (@i + 1));
+}
+
+.grid-build-media-helper(@layout, @gutter, @container, @name, @breakpoint) when (@grid-media-direction = min) {
+	@media screen and (min-width: @breakpoint) {
+		.grid-process-layout-columns(@layout, @gutter, @container, @name);
+	}
+}
+
+.grid-build-media-helper(@layout, @gutter, @container, @name, @breakpoint) when (@grid-media-direction = max) {
+	@media screen and (max-width: @breakpoint) {
+		.grid-process-layout-columns(@layout, @gutter, @container, @name);
+	}
+}
+
+// --------------------------------------------------------------------------
+// Grid builder
+// --------------------------------------------------------------------------
+
+#grid {
+	.build(@layout:@grid-layout, @gutter:@grid-gutter, @container:@grid-container) {
+		#grid.base();
+		.grid-build-layout(@layout, @gutter, @container, "");
+	}
+}
+
